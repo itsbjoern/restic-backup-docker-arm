@@ -131,6 +131,8 @@ The container is set up by setting [environment variables](https://docs.docker.c
 * `RUN_IMMEDIATELY` - Optional. Will create a backup instantly when the container starts.
 * `AWS_ACCESS_KEY_ID` - Optional. When using restic with AWS S3 storage.
 * `AWS_SECRET_ACCESS_KEY` - Optional. When using restic with AWS S3 storage.
+* `B2_ACCOUNT_ID` - Optional. When using restic with B2 storage.
+* `B2_ACCOUNT_KEY` - Optional. When using restic with B2 storage.
 * `TEAMS_WEBHOOK_URL` - Optional. If specified, the content of `/var/log/backup-last.log` and `/var/log/check-last.log` is sent to your Microsoft Teams channel after each backup and data integrity check.
 * `MAILX_ARGS` - Optional. If specified, the content of `/var/log/backup-last.log` and `/var/log/check-last.log` is sent via mail after each backup and data integrity check using an *external SMTP*. To have maximum flexibility, you have to specify the mail/smtp parameters on your own. Have a look at the [mailx manpage](https://linux.die.net/man/1/mailx) for further information. Example value: `-e "MAILX_ARGS=-r 'from@example.de' -s 'Result of the last restic run' -S smtp='smtp.example.com:587' -S smtp-use-starttls -S smtp-auth=login -S smtp-auth-user='username' -S smtp-auth-password='password' 'to@example.com'"`.
 * `OS_AUTH_URL` - Optional. When using restic with OpenStack Swift container.
