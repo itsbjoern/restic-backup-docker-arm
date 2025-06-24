@@ -4,6 +4,12 @@ lastLogfile="/var/log/backup-last.log"
 lastMailLogfile="/var/log/mail-last.log"
 lastMicrosoftTeamsLogfile="/var/log/microsoft-teams-last.log"
 
+if [ -n "$BACKUP_SOURCES" ]; then
+    backupSources="$BACKUP_SOURCES"
+else
+    backupSources="/data"
+fi
+
 copyErrorLog() {
   cp ${lastLogfile} /var/log/backup-error-last.log
 }
@@ -32,7 +38,7 @@ logLast "AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}"
 logLast "B2_ACCOUNT_ID: ${B2_ACCOUNT_ID}"
 
 # Do not save full backup log to logfile but to backup-last.log
-restic backup /data ${RESTIC_JOB_ARGS} --tag=${RESTIC_TAG?"Missing environment variable RESTIC_TAG"} >> ${lastLogfile} 2>&1
+restic backup ${backupSources} ${RESTIC_JOB_ARGS} --tag=${RESTIC_TAG?"Missing environment variable RESTIC_TAG"} >> ${lastLogfile} 2>&1
 backupRC=$?
 logLast "Finished backup at $(date)"
 if [[ $backupRC == 0 ]]; then
@@ -73,7 +79,7 @@ if [ -n "${TEAMS_WEBHOOK_URL}" ]; then
 fi
 
 if [ -n "${MAILX_ARGS}" ]; then
-    sh -c "mailx -v -S sendwait ${MAILX_ARGS} < ${lastLogfile} > ${lastMailLogfile} 2>&1"
+    sh -c "mail -v -S sendwait ${MAILX_ARGS} < ${lastLogfile} > ${lastMailLogfile} 2>&1"
     if [ $? == 0 ]; then
         echo "Mail notification successfully sent."
     else
