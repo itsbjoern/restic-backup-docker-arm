@@ -79,7 +79,7 @@ if [ -n "${TEAMS_WEBHOOK_URL}" ]; then
 fi
 
 if [ -n "${MAILX_ARGS}" ]; then
-    sh -c "mail -v -S sendwait ${MAILX_ARGS} < ${lastLogfile} > ${lastMailLogfile} 2>&1"
+    sh -c "s-nail -v -S sendwait ${MAILX_ARGS} < ${lastLogfile} > ${lastMailLogfile} 2>&1"
     if [ $? == 0 ]; then
         echo "Mail notification successfully sent."
     else
